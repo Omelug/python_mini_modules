@@ -15,6 +15,7 @@ def arg_input(action, in_msg):
                 else:
                     raise ValueError()
             else:
+                print(f"{action.type}", file=sys.stderr)
                 user_input = action.type(user_input)
             return user_input
         except ValueError:
