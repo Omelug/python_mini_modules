@@ -56,5 +56,10 @@ class InputParser(argparse.ArgumentParser):
         full_cmd = [f"{sys.argv[0]}"]
         for action in self._actions:
             if action.dest != "help":
-                full_cmd.append(f"--{action.dest} {getattr(args, action.dest)}")
+                if isinstance(action, argparse._StoreTrueAction) or isinstance(action, argparse._StoreFalseAction):
+                    if getattr(args, action.dest):
+                        full_cmd.append(f"--{action.dest}")
+                else:
+                    value = getattr(args, action.dest)
+                    full_cmd.append(f"--{action.dest} {value}")
         return " ".join(full_cmd)
